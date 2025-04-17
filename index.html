@@ -117,7 +117,7 @@
       const maxDist = 100; // 최대 거리 기준: 단위는 %
 
       document.querySelectorAll('.viewport > .box').forEach((el, idx) => {
-        const r = (1 * idx + 1); // 반지름
+        const r = (1 * (idx ** 1.3) + 1); // 반지름
         const angle = (deg * 1 / Math.sqrt(r ** 3)) * 12;
         const tx = x(angle) * r; // * (Math.sin(deg * 0.1 * Math.PI / 180) + 0.1);
         const ty = y(angle) * r;
@@ -137,7 +137,7 @@
 
       document.querySelectorAll('.viewport > .box .box').forEach((el, idx) => {
         idx = idx + 2;
-        const r = (idx + (200)); // 반지름
+        const r = (idx + (400)); // 반지름
         const angle = (deg * idx / Math.sqrt(r ** 3)) * 84 * (idx ** 2);
         const tx = x(angle) * r; // * (Math.sin(deg * 0.1 * Math.PI / 180) + 0.1);
         const ty = y(angle) * r;
