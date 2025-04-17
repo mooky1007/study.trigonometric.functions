@@ -20,7 +20,8 @@
 
     body {
       position: relative;
-      background: #222;
+      background: #1c0533;
+background: radial-gradient(circle,rgba(28, 5, 51, 1) 0%, rgba(0, 0, 0, 1) 100%);
       width: 100vw;
       height: 100vh;
       overflow: hidden;
@@ -35,14 +36,14 @@
       min-width: 0;
       width: 100vw;
       aspect-ratio: 1/1;
-      background: #222;
     }
 
     .pin {
       position: absolute;
-      width: 4px;
-      height: 4px;
-      background: red;
+      width: 8px;
+      height: 8px;
+      background: rgb(255, 222, 178);
+      box-shadow: 0 0 100vw 30vw rgba(255, 235, 178, 0.1), 0 0 30px 6px rgba(255, 235, 178, 1);
       border-radius: 100px;
       top: 50%;
       left: 50%;
@@ -51,10 +52,10 @@
 
     .box {
       position: absolute;
-      width: 5px;
-      height: 5px;
+      width: 3px;
+      height: 3px;
       background: #eee;
-      box-shadow: 0 0 10px rgba(255, 255, 255, 1);
+      box-shadow: 0 0 1px 1px rgba(255, 255, 255, 1), 0 0 30px 3px rgba(255, 255, 255, 1);
       border-radius: 20px;
       transform: translate(-50%, -50%);
     }
@@ -116,7 +117,7 @@
       document.querySelectorAll('.box').forEach((el, idx) => {
         const angle = deg * (idx / 10);
         const r = (2 * idx + 3); // 반지름
-        const tx = x(angle) * r * 0.8;
+        const tx = x(angle) * r * (Math.sin(deg * 0.1 * Math.PI / 180) + 0.1);
         const ty = y(angle) * r;
 
         const posX = tx + 50;
@@ -125,12 +126,11 @@
         el.style.left = `${posX}%`;
         el.style.top = `${posY}%`;
 
-        // 중심점(50,50)으로부터 거리 계산
         const dx = tx;
         const dy = ty;
         const dist = Math.sqrt(dx * dx + dy * dy);
 
-        // el.style.opacity = 1 - dist / maxDist;
+        el.style.opacity = 1 - dist / maxDist;
       });
 
       deg += 1;
