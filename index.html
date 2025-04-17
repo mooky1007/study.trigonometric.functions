@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #222;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    .viewport {
+      margin: 0 auto;
+      position: relative;
+      width: 100vw;
+      height: 100vw;
+      background: #222;
+      overflow: hidden;
+    }
+
+    .pin {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: #fff;
+      display: none;
+      border-radius: 100px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .box {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      background: #eee;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 1);
+      border-radius: 20px;
+      transform: translate(-50%, -50%);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="viewport">
+    <div class="pin"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+  </div>
+
+  <script>
+    let deg = 0;
+
+    const rotateBox = () => {
+      const x = (deg) => Math.cos(deg * Math.PI / 180);
+      const y = (deg) => Math.sin(deg * Math.PI / 180);
+
+      const maxDist = 100; // 최대 거리 기준: 단위는 %
+
+      document.querySelectorAll('.box').forEach((el, idx) => {
+        const angle = deg * (idx / 15);
+        const r = (2 * idx + 1); // 반지름
+        const tx = x(angle) * r * 0.8;
+        const ty = y(angle) * r;
+
+        const posX = tx + 50;
+        const posY = ty + 50;
+
+        el.style.left = `${posX}%`;
+        el.style.top = `${posY}%`;
+
+        // 중심점(50,50)으로부터 거리 계산
+        const dx = tx;
+        const dy = ty;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        // el.style.opacity = 1 - dist / maxDist;
+      });
+
+      deg += 1;
+      requestAnimationFrame(rotateBox);
+    };
+
+    requestAnimationFrame(rotateBox)
+  </script>
+</body>
+
+</html>
