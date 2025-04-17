@@ -21,7 +21,7 @@
     body {
       position: relative;
       background: #1c0533;
-background: radial-gradient(circle,rgba(28, 5, 51, 1) 0%, rgba(0, 0, 0, 1) 100%);
+      background: radial-gradient(circle, rgba(28, 5, 51, 1) 0%, rgba(0, 0, 0, 1) 100%);
       width: 100vw;
       height: 100vh;
       overflow: hidden;
@@ -59,6 +59,13 @@ background: radial-gradient(circle,rgba(28, 5, 51, 1) 0%, rgba(0, 0, 0, 1) 100%)
       border-radius: 20px;
       transform: translate(-50%, -50%);
     }
+
+    .box>.box {
+      width: 1px;
+      height: 1px;
+      box-shadow: 0 0 1px 1px rgba(255, 255, 255, 1);
+      opacity: 0.7;
+    }
   </style>
 </head>
 
@@ -67,42 +74,37 @@ background: radial-gradient(circle,rgba(28, 5, 51, 1) 0%, rgba(0, 0, 0, 1) 100%)
     <div class="pin"></div>
     <div class="box"></div>
     <div class="box"></div>
+    <div class="box">
+      <div class="box"></div>
+    </div>
     <div class="box"></div>
     <div class="box"></div>
+    <div class="box">
+      <div class="box"></div>
+    </div>
     <div class="box"></div>
     <div class="box"></div>
+    <div class="box">
+      <div class="box"></div>
+    </div>
     <div class="box"></div>
     <div class="box"></div>
+    <div class="box">
+      <div class="box"></div>
+      <div class="box"></div>
+      <div class="box"></div>
+      <div class="box"></div>
+      <div class="box"></div>
+      <div class="box"></div>
+      <div class="box"></div>
+      <div class="box"></div>
+      <div class="box"></div>
+    </div>
     <div class="box"></div>
     <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
-    <div class="box"></div>
+    <div class="box">
+      <div class="box"></div>
+    </div>
   </div>
 
   <script>
@@ -114,9 +116,9 @@ background: radial-gradient(circle,rgba(28, 5, 51, 1) 0%, rgba(0, 0, 0, 1) 100%)
 
       const maxDist = 100; // 최대 거리 기준: 단위는 %
 
-      document.querySelectorAll('.box').forEach((el, idx) => {
-        const angle = deg * (document.querySelectorAll('.box').length - idx) * 0.1;
+      document.querySelectorAll('.viewport > .box').forEach((el, idx) => {
         const r = (1 * idx + 1); // 반지름
+        const angle = (deg * 1 / Math.sqrt(r ** 3)) * 12;
         const tx = x(angle) * r; // * (Math.sin(deg * 0.1 * Math.PI / 180) + 0.1);
         const ty = y(angle) * r;
 
@@ -131,6 +133,24 @@ background: radial-gradient(circle,rgba(28, 5, 51, 1) 0%, rgba(0, 0, 0, 1) 100%)
         const dist = Math.sqrt(dx * dx + dy * dy);
 
         el.style.opacity = 1 - dist / maxDist;
+      });
+
+      document.querySelectorAll('.viewport > .box .box').forEach((el, idx) => {
+        idx = idx + 2;
+        const r = (idx + (200)); // 반지름
+        const angle = (deg * idx / Math.sqrt(r ** 3)) * 84 * (idx ** 2);
+        const tx = x(angle) * r; // * (Math.sin(deg * 0.1 * Math.PI / 180) + 0.1);
+        const ty = y(angle) * r;
+
+        const posX = tx + 50;
+        const posY = ty + 50;
+
+        el.style.left = `${posX}%`;
+        el.style.top = `${posY}%`;
+
+        const dx = tx;
+        const dy = ty;
+        const dist = Math.sqrt(dx * dx + dy * dy);
       });
 
       deg += 1;
