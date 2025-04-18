@@ -115,19 +115,25 @@
 
       ctx.save()
       ctx.beginPath();
-      ctx.fillStyle = '#ffffff09'
-      ctx.shadowBlur = 10;
-      ctx.shadowColor = "rgba(255,255,255,0.7)";
+      ctx.filter = 'blur(3px)';
+      ctx.fillStyle = '#ffffff11'
       ctx.arc(canvas.width / 2, canvas.width / 2, 18, 0, Math.PI * 2);
       ctx.fill();
       ctx.restore()
 
       ctx.save()
       ctx.beginPath();
-      ctx.fillStyle = '#ffffff09'
-      ctx.shadowBlur = 10;
-      ctx.shadowColor = "rgba(255,255,255,0.7)";
+      ctx.filter = 'blur(6px)';
+      ctx.fillStyle = '#ffffff11'
       ctx.arc(canvas.width / 2, canvas.width / 2, 32, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore()
+
+      ctx.save()
+      ctx.beginPath();
+      ctx.filter = 'blur(12px)';
+      ctx.fillStyle = '#ffffff11'
+      ctx.arc(canvas.width / 2, canvas.width / 2, 64, 0, Math.PI * 2);
       ctx.fill();
       ctx.restore()
     }
