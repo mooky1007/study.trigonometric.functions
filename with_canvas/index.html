@@ -152,8 +152,8 @@
       ctx.beginPath();
       const defaultSpeed = (1 / (Math.sqrt(r ** 3)));
       speed *= 1000;
-      const x = Math.sin(time * defaultSpeed * speed * Math.PI / 180) * r + canvas.width / 2;
-      const y = Math.cos(time * defaultSpeed * speed * Math.PI / 180) * r + canvas.width / 2;
+      const x = Math.sin((time * defaultSpeed * speed * Math.PI / 180 + +Math.PI / 2)) * r + canvas.width / 2;
+      const y = Math.cos((time * defaultSpeed * speed * Math.PI / 180) + Math.PI / 2) * r + canvas.width / 2;
       ctx.arc(x, y, r2, 0, Math.PI * 2);
       ctx.fill();
 
@@ -171,8 +171,8 @@
       ctx2.beginPath();
       const defaultSpeed = (1 / (Math.sqrt(r ** 3)));
       speed *= 1000;
-      const x = Math.sin(time * defaultSpeed * speed * Math.PI / 180) * r + canvas.width / 2;
-      const y = Math.cos(time * defaultSpeed * speed * Math.PI / 180) * r + canvas.width / 2;
+      const x = Math.sin((time * defaultSpeed * speed * Math.PI / 180) + +Math.PI / 2) * r + canvas.width / 2;
+      const y = Math.cos((time * defaultSpeed * speed * Math.PI / 180) + Math.PI / 2) * r + canvas.width / 2;
       ctx2.arc(x, y, r2, 0, Math.PI * 2);
       ctx2.fill();
     }
