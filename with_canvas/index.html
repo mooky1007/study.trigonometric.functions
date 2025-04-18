@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #000;
+    }
+
+    canvas {
+      width: 600px;
+      height: 600px;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas"></canvas>
+
+  <script>
+    let time = 0;
+
+    let lastTime = performance.now();
+    let fps = 0;
+
+    const canvas = document.querySelector('#canvas');
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = 1200;
+    canvas.height = 1200;
+
+    // const drawLine = () => {
+    //   ctx.font = '14px sans-serif';
+
+    //   ctx.beginPath();
+    //   ctx.strokeStyle = '#eee';
+    //   for (let i = 0; i <= canvas.width; i += 10) {
+    //     ctx.moveTo(i, 0);
+    //     ctx.lineTo(i, canvas.width);
+    //     ctx.moveTo(0, i);
+    //     ctx.lineTo(canvas.width, i);
+    //   }
+    //   ctx.stroke();
+
+    //   ctx.save();
+    //   ctx.strokeStyle = '#ff0000aa';
+    //   ctx.beginPath();
+    //   ctx.moveTo(canvas.width / 2, 0);
+    //   ctx.lineTo(canvas.width / 2, canvas.width);
+    //   ctx.moveTo(0, canvas.width / 2);
+    //   ctx.lineTo(canvas.width, canvas.width / 2);
+    //   ctx.stroke();
+    //   ctx.restore();
+
+    //   ctx.beginPath();
+    //   ctx.arc(canvas.width / 2, canvas.width / 2, 3, 0, Math.PI * 2);
+    //   ctx.fill();
+
+    //   ctx.textBaseline = 'top';
+    //   const text = ctx.measureText(`${canvas.width/2}, ${canvas.width/2}`)
+    //   const width = text.width;
+    //   const height = text.actualBoundingBoxAscent + text.actualBoundingBoxDescent;
+    //   ctx.fillText(`${canvas.width/2}, ${canvas.width/2}`, canvas.width / 2 - width / 2, canvas.width / 2 + 5);
+    // }
+
+    const drawLine = () => {
+      ctx.beginPath();
+      ctx.strokeStyle = '#eeeeee22';
+      for (let i = 0; i <= canvas.width; i += 10) {
+        ctx.moveTo(i, 0);
+        ctx.lineTo(i, canvas.width);
+        ctx.moveTo(0, i);
+        ctx.lineTo(canvas.width, i);
+      }
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.arc(canvas.width / 2, canvas.width / 2, 3, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+
+    const drawOrbit = (r) => {
+      ctx.beginPath();
+      ctx.strokeStyle = '#dddddd22';
+      ctx.arc(canvas.width / 2, canvas.height / 2, r, 0, Math.PI * 2);
+      ctx.stroke();
+    };
+
+    const rotateCircle = (r, speed = 1) => {
+      drawOrbit(r);
+      ctx.fillStyle = '#fff'
+      ctx.beginPath();
+      const defaultSpeed = (1 / (Math.sqrt(r ** 2.5)));
+      speed *= 1000;
+      const x = Math.sin(time * defaultSpeed * speed * Math.PI / 180) * r + canvas.width / 2;
+      const y = Math.cos(time * defaultSpeed * speed * Math.PI / 180) * r + canvas.width / 2;
+      ctx.arc(x, y, 3, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.font = '14px sans-serif';
+      ctx.fillStyle = '#ffffffaa';
+      ctx.textBaseline = 'top';
+      const text = ctx.measureText(`${r}`)
+      const width = text.width;
+      const height = text.actualBoundingBoxAscent + text.actualBoundingBoxDescent;
+      ctx.fillText(`${r}`, x - width / 2, y + 10);
+    }
+
+    const draw = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      drawLine();
+
+      for (let i = 0; i <= 850; i += 50) rotateCircle(i);
+
+      time++;
+      requestAnimationFrame(draw);
+    };
+
+    requestAnimationFrame(draw);
+  </script>
+</body>
+
+</html>
