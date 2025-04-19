@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Parabola</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #000;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas></canvas>
+  <script>
+    const canvas = document.querySelector('canvas');
+    const ctx = canvas.getContext('2d');
+
+    const dpr = window.devicePixelRatio || 1;
+    const size = Math.min(window.innerWidth, window.innerHeight);
+
+    canvas.width = size * dpr;
+    canvas.height = size * dpr;
+    canvas.style.width = `${size}px`;
+    canvas.style.height = `${size}px`;
+
+    const center = {
+      x: canvas.width / 16,
+      y: canvas.height / 4 * 3
+    }
+
+    ctx.fillStyle = '#ffffff';
+
+    let total = 0;
+    let lastTime = performance.now();
+    const g = 0.1; // 중력 가속도
+
+    const tank = function(angle, power = 10) {
+      const _angle = angle * Math.PI / 180;
+
+      return {
+        end: false,
+        render: function() {
+            if (this.end) return;
+            else return this.bomb();
+          }
+
+          const acceleration = g * total ** 2;
+          this.acceleration = acceleration;
+
+          this.x = center.x + (total * Math.cos(_angle) * power);
+          this.y = center.y - (total * Math.sin(_angle) * power) + acceleration;
+
+          if (!this.last) {
+            this.last = {
+              x: this.x,
+              y: this.y
+            }
+          }
+
+          ctx.save();
+          ctx.strokeStyle = '#ffff00';
+          ctx.beginPath();
+          ctx.moveTo(this.last.x, this.last.y);
+          ctx.lineTo(this.x, this.y);
+          ctx.stroke();
+          ctx.closePath()
+          ctx.restore();
+
+          this.last = {
+            x: this.x,
+            y: this.y
+          }
+        },
+        bomb: function() {
+          // F = ma
+
+          const f = Math.round(this.acceleration * 1000) / 1000;
+          ctx.save();
+          ctx.fillStyle = '#ff0000aa'
+          ctx.arc(this.last.x + 1.5, this.last.y + 1.5, 3, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.font = '16px san-serif';
+          ctx.fontColor = 'red';
+          ctx.textBaseline = 'top';
+          ctx.fillText(f, this.last.x, this.last.y);
+          ctx.restore();
+
+          this.end = true;
+        }
+      }
+    }
+
+    const a1 = new tank(30);
+    const a2 = new tank(46);
+    const a3 = new tank(70);
+
+    const lineMove = (currentTime) => {
+      const timeDiff = (currentTime - lastTime) / 100;
+      total += timeDiff
+
+      a1.render();
+      a2.render();
+      a3.render();
+
+      lastTime = currentTime;
+      requestAnimationFrame(lineMove)
+    }
+
+    requestAnimationFrame(lineMove)
+  </script>
+</body>
+
+</html>
