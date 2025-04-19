@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>Document</title>
   <style>
     * {
@@ -65,13 +65,21 @@
     const lastPos = {};
     const trailMap = {};
 
+    const dpr = window.devicePixelRatio || 1;
+    const size = Math.min(window.innerWidth, window.innerHeight);
 
-    canvas.width = 1920;
-    canvas.height = 1920;
-    canvas2.width = 1920;
-    canvas2.height = 1920;
-    canvas3.width = 1920;
-    canvas3.height = 1920;
+    canvas.width = size * dpr;
+    canvas.height = size * dpr;
+    canvas.style.width = `${size}px`;
+    canvas.style.height = `${size}px`;
+    canvas2.width = size * dpr;
+    canvas2.height = size * dpr;
+    canvas2.style.width = `${size}px`;
+    canvas2.style.height = `${size}px`;
+    canvas3.width = size * dpr;
+    canvas3.height = size * dpr;
+    canvas3.style.width = `${size}px`;
+    canvas3.style.height = `${size}px`;
 
     ctx2.fillStyle = '#000';
     ctx2.fillRect(0, 0, canvas2.width, canvas2.height);
