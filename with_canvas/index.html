@@ -139,25 +139,25 @@
 
       ctx3.save()
       ctx3.beginPath();
-      ctx3.filter = 'blur(6px)';
+      ctx3.filter = 'blur(30px)';
       ctx3.fillStyle = '#ffffff33'
-      ctx3.arc(canvas.width / 2, canvas.width / 2, 24, 0, Math.PI * 2);
+      ctx3.arc(canvas.width / 2, canvas.width / 2, 60, 0, Math.PI * 2);
       ctx3.fill();
       ctx3.restore()
 
       ctx3.save()
       ctx3.beginPath();
-      ctx3.filter = 'blur(6px)';
+      ctx3.filter = 'blur(60px)';
       ctx3.fillStyle = '#ffffff22'
-      ctx3.arc(canvas.width / 2, canvas.width / 2, 48, 0, Math.PI * 2);
+      ctx3.arc(canvas.width / 2, canvas.width / 2, 120, 0, Math.PI * 2);
       ctx3.fill();
       ctx3.restore()
 
       ctx3.save()
       ctx3.beginPath();
-      ctx3.filter = 'blur(6px)';
+      ctx3.filter = 'blur(60px)';
       ctx3.fillStyle = '#ffffff11'
-      ctx3.arc(canvas.width / 2, canvas.width / 2, 72, 0, Math.PI * 2);
+      ctx3.arc(canvas.width / 2, canvas.width / 2, 240, 0, Math.PI * 2);
       ctx3.fill();
       ctx3.restore()
     }
@@ -171,23 +171,37 @@
     };
 
     const rotateCircle = (r, r2 = 3, speed = 1) => {
-      ctx.fillStyle = '#fff'
-      ctx.beginPath();
       const defaultSpeed = (1 / (Math.sqrt(r ** 3)));
-      speed *= 1000;
-      const x = Math.sin((time * defaultSpeed * speed * Math.PI / 180 + (Math.PI / 1.5 + Math.sqrt(r ** 3)))) * r + canvas.width / 2;
-      const y = Math.cos((time * defaultSpeed * speed * Math.PI / 180) + (Math.PI / 1.5 + Math.sqrt(r ** 3))) * r + canvas.width / 2;
+      speed *= 3000;
+      const angle = time * defaultSpeed * speed * Math.PI / 180 + (Math.PI / 2); // 시작 각도 12시 방향
+      const x = Math.cos(angle) * r + canvas.width / 2;
+      const y = Math.sin(angle) * r + canvas.height / 2;
+
+      ctx.fillStyle = '#fff';
+      ctx.beginPath();
       ctx.arc(x, y, r2, 0, Math.PI * 2);
       ctx.fill();
-    }
+    };
 
+    const rotateCircleR = (r, r2 = 3, speed = 1) => {
+      const defaultSpeed = (1 / (Math.sqrt(r ** 3)));
+      speed *= 3000;
+      const angle = time * defaultSpeed * speed * Math.PI / 180 + (Math.PI / 2); // 시작 각도 12시 방향
+      const x = Math.sin(angle) * r + canvas.width / 2;
+      const y = Math.cos(angle) * r + canvas.height / 2;
+
+      ctx.fillStyle = '#fff';
+      ctx.beginPath();
+      ctx.arc(x, y, r2, 0, Math.PI * 2);
+      ctx.fill();
+    };
 
     const rotateTri = (r, r2 = 3, speed = 1) => {
       ctx.save();
       ctx.font = '14px sans-serif';
       ctx.textBaseline = 'top';
 
-      ctx.strokeStyle = `#40ff7c44`;
+      ctx.strokeStyle = `#9ecfff33`;
       ctx.fillStyle = `#ffffff88`;
 
       ctx.beginPath();
@@ -257,8 +271,8 @@
       if (r === 0) return;
 
       const defaultSpeed = 1 / Math.sqrt(r ** 3);
-      speed *= 1000;
-      const angle = time * defaultSpeed * speed * Math.PI / 180 + (Math.PI / 1.5 + Math.sqrt(r ** 3));
+      speed *= 3000;
+      const angle = time * defaultSpeed * speed * Math.PI / 180 + (Math.PI / 3);
       const x = Math.sin(angle) * r + canvas.width / 2;
       const y = Math.cos(angle) * r + canvas.height / 2;
 
@@ -270,7 +284,7 @@
         y
       });
 
-      const maxTrail = 40;
+      const maxTrail = 200;
 
       if (trail.length > maxTrail) trail.shift();
 
@@ -289,6 +303,60 @@
       }
     };
 
+    const drawArcTrail = (r, r2 = 1, speed = 1, span = 0.3 * Math.PI, steps = 100) => {
+      const cx = canvas.width / 2;
+      const cy = canvas.height / 2;
+      const defaultSpeed = 1 / Math.sqrt(r ** 3);
+      speed *= 3000;
+      const endAngle = time * defaultSpeed * speed * Math.PI / 180 + (Math.PI / 2);
+      const startAngle = endAngle - span;
+
+      for (let i = 0; i < steps; i++) {
+        const t1 = startAngle + (endAngle - startAngle) * (i / steps);
+        const t2 = startAngle + (endAngle - startAngle) * ((i + 1) / steps);
+        const alpha = (i / steps).toFixed(2);
+
+        const x1 = Math.cos(t1) * r + cx;
+        const y1 = Math.sin(t1) * r + cy;
+        const x2 = Math.cos(t2) * r + cx;
+        const y2 = Math.sin(t2) * r + cy;
+
+        ctx2.strokeStyle = `rgba(255, 229, 135, ${alpha})`;
+        ctx2.lineWidth = r2;
+        ctx2.beginPath();
+        ctx2.moveTo(x1, y1);
+        ctx2.lineTo(x2, y2);
+        ctx2.stroke();
+      }
+    };
+
+    const drawArcTrailR = (r, r2 = 1, speed = 1, span = 0.3 * Math.PI, steps = 100) => {
+      const cx = canvas.width / 2;
+      const cy = canvas.height / 2;
+      const defaultSpeed = 1 / Math.sqrt(r ** 3);
+      speed *= 3000;
+      const endAngle = time * defaultSpeed * speed * Math.PI / 180 + (Math.PI / 2);
+      const startAngle = endAngle - span;
+
+      for (let i = 0; i < steps; i++) {
+        const t1 = startAngle + (endAngle - startAngle) * (i / steps);
+        const t2 = startAngle + (endAngle - startAngle) * ((i + 1) / steps);
+        const alpha = (i / steps).toFixed(2);
+
+        const x1 = Math.sin(t1) * r + cx;
+        const y1 = Math.cos(t1) * r + cy;
+        const x2 = Math.sin(t2) * r + cx;
+        const y2 = Math.cos(t2) * r + cy;
+
+        ctx2.strokeStyle = `rgba(255, 117, 117, ${alpha})`;
+        ctx2.lineWidth = r2;
+        ctx2.beginPath();
+        ctx2.moveTo(x1, y1);
+        ctx2.lineTo(x2, y2);
+        ctx2.stroke();
+      }
+    };
+
     drawLine();
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -298,14 +366,18 @@
       // ctx2.fillRect(0, 0, canvas2.width, canvas2.height);
       // ctx2.restore()
 
-
-      for (let i = 0; i <= 450; i++) {
+      for (let i = 0; i <= 200; i++) {
         rotateTri(i)
       }
 
-      for (let i = 0; i <= 1200; i += 20) {
+      for (let i = 10; i <= 240; i += 20) {
+        rotateCircleR(i);
+        drawArcTrailR(i);
+      }
+
+      for (let i = 0; i <= 240; i += 20) {
         rotateCircle(i);
-        rotateCircle2(i);
+        drawArcTrail(i);
       };
 
 
