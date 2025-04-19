@@ -49,12 +49,13 @@
     let lastTime = performance.now();
     const g = 0.1; // 중력 가속도
 
-    const tank = function(angle, power = 10) {
+    const tank = function(angle, power = 15) {
       const _angle = angle * Math.PI / 180;
 
       return {
         end: false,
         render: function() {
+          if (this.y > center.y) {
             if (this.end) return;
             else return this.bomb();
           }
@@ -73,7 +74,15 @@
           }
 
           ctx.save();
-          ctx.strokeStyle = '#ffff00';
+          if (angle > 45) {
+            ctx.strokeStyle = '#ff00ff66';
+          } else {
+            ctx.strokeStyle = '#ffff0066';
+          }
+
+          if (angle === 45) {
+            ctx.strokeStyle = '#00ff00';
+          }
           ctx.beginPath();
           ctx.moveTo(this.last.x, this.last.y);
           ctx.lineTo(this.x, this.y);
@@ -89,7 +98,7 @@
         bomb: function() {
           // F = ma
 
-          const f = Math.round(this.acceleration * 1000) / 1000;
+          const f = Math.round(this.acceleration * 10) / 10;
           ctx.save();
           ctx.fillStyle = '#ff0000aa'
           ctx.arc(this.last.x + 1.5, this.last.y + 1.5, 3, 0, Math.PI * 2);
@@ -98,25 +107,36 @@
           ctx.font = '16px san-serif';
           ctx.fontColor = 'red';
           ctx.textBaseline = 'top';
-          ctx.fillText(f, this.last.x, this.last.y);
+          const {
+            width
+          } = ctx.measureText(`${Math.floor(this.last.x)}:${f}`)
+          if (angle > 45) {
+            ctx.fillText(`${Math.floor(this.last.x)}:${f}`, this.last.x - width / 2, this.last.y + 30);
+          }else{
+            ctx.fillText(`${Math.floor(this.last.x)}:${f}`, this.last.x - width / 2, this.last.y + 10);
+          }
           ctx.restore();
+
+          this.force = f;
 
           this.end = true;
         }
       }
     }
 
-    const a1 = new tank(30);
-    const a2 = new tank(46);
-    const a3 = new tank(70);
+    const tanks = {};
 
+    for (let i = 0; i < 90; i += 5) {
+      tanks[i] = new tank(i);
+      tanks[i].id = i
+    }
     const lineMove = (currentTime) => {
       const timeDiff = (currentTime - lastTime) / 100;
       total += timeDiff
 
-      a1.render();
-      a2.render();
-      a3.render();
+      for (let i = 0; i < 90; i += 5) {
+        tanks[i].render();
+      }
 
       lastTime = currentTime;
       requestAnimationFrame(lineMove)
